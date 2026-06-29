@@ -1,6 +1,6 @@
 # Financial inclusion in africa20250311
 ## Zindi Challenge Demo
-I tried using Logistic Regression
+I tried using KNeighborsClassifier
 ## Steps
 ### Import Library
     import pandas as pd
@@ -14,7 +14,7 @@ I tried using Logistic Regression
     import sklearn.model_selection
 
     #import classifier algorithm here
-    from sklearn.linear_model import LogisticRegression
+    from sklearn.neighbors import KNeighborsClassifier
 
     #import preprocessing module
     from sklearn.preprocessing import LabelEncoder
@@ -34,8 +34,8 @@ I tried using Logistic Regression
     variables = pd.read_csv('VariableDefinitions.csv')  # Data dictionary
 
 ### Check Shape
-    # print(f"✅ Train dataset: {train.shape[0]} rows, {train.shape[1]} columns")
-    # print(f"✅ Test dataset: {test.shape[0]} rows, {test.shape[1]} columns")
+    print(f"✅ Train dataset: {train.shape[0]} rows, {train.shape[1]} columns")
+    print(f"✅ Test dataset: {test.shape[0]} rows, {test.shape[1]} columns")
 
 ### Declare Target
     le = LabelEncoder()
@@ -77,24 +77,24 @@ I tried using Logistic Regression
     X_Train, X_Val, y_Train, y_val = train_test_split(processed_train, y_train, stratify = y_train, test_size = 0.1, random_state=42)
 
 ### Init Model
-    clf = LogisticRegression(max_iter=5000, class_weight="balanced")
+    knn = KNeighborsClassifier(n_neighbors=40)
 
 ### Fit Model
-    clf.fit(X_Train, y_Train)
+    knn.fit(X_train, y_train)
 
 ### Sample Predict
-    clf_model = clf.predict(X_Val)
+    y_pred = knn.predict(X_test)
 
 ### Check the proportion of incorrect prediction made by the model
-    print("Error rate of LogisticRegression classifier: ", 1 - accuracy_score(y_val, clf_model))
+    print("Error rate of LogisticRegression classifier: ", 1 - accuracy_score(y_test, y_pred))
 
 ### Predict
-    test.bank_account = clf.predict(processed_test)
+    test.bank_account = knn.predict(processed_test)
 
 ### Format to required output format
     submission = pd.DataFrame({"uniqueid": test["uniqueid"] + " x " + test["country"], "bank_account": test.bank_account})
 
 ### Save
-    submission.to_csv('first_submission.csv', index = False)
+    submission.to_csv('submission.csv', index = False)
 
-# Resulted to 0.2061198470038249
+# Resulted to 0.11092222694432641
