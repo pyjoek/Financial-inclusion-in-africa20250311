@@ -97,4 +97,4 @@ I tried using Logistic Regression
 ### Save
     submission.to_csv('first_submission.csv', index = False)
 
-# Resulted to 0.2061198470038249
+# Resulted to 0.2061198470038248
